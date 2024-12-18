@@ -50,8 +50,8 @@ def distance_transform(img):
         for j in range(1, img.shape[1] - 1):
             for k in range(3):
                 for l in range(3):
-                    # if k == 1 and l == 1:
-                    #     continue
+                    if k == 1 and l == 1:
+                        continue
                     ni, nj = i + k - 1, j + l - 1
                     if 0 <= ni < img.shape[0] and 0 <= nj < img.shape[1]:
                         distance_img[i, j] = min(
@@ -64,8 +64,8 @@ def distance_transform(img):
         for j in range(img.shape[1] - 2, 0, -1):
             for k in range(3):
                 for l in range(3):
-                    # if k == 1 and l == 1:
-                    #     continue
+                    if k == 1 and l == 1:
+                        continue
                     ni, nj = i + k - 1, j + l - 1
                     if 0 <= ni < img.shape[0] and 0 <= nj < img.shape[1]:
                         distance_img[i, j] = min(
