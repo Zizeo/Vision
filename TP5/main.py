@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import cv2 as cv
 import os
+from functools import lru_cache
 
 
 def imagesc(img1):
@@ -11,30 +12,6 @@ def imagesc(img1):
     plt.imshow(img2, cmap="gray")
     plt.show()
 
-
-# def get_all_haar_filters():
-#     filters = []
-#     for i in range(1, 11):
-#         for j in range(1, 11):
-#             for k in range(11 - i):
-#                 for l in range(11 - j):
-#                     # motif 1
-#                     filter1 = np.zeros((i, j))
-#                     filter1[:, : j // 2] = 1
-#                     filter1[:, j // 2 :] = -1
-#                     filters.append(filter1)
-#                     # motif 2
-#                     filter2 = np.zeros((i, j))
-#                     filter2[: i // 2, :] = 1
-#                     filter2[i // 2 :, :] = -1
-#                     filters.append(filter2)
-#                     # motif 3
-#                     filter3 = np.zeros((i, j))
-#                     filter3[:, : j // 3] = 1
-#                     filter3[:, j // 3 : 2 * j // 3] = -1
-#                     filter3[:, 2 * j // 3 :] = 1
-#                     filters.append(filter3)
-#     return filters
 
 filelist = os.listdir("TP5/training")
 
@@ -101,28 +78,88 @@ def choixseuil(F, FEATURE):
     if F.shape[0] < 2:
         return 0, F, F
 
-    # Sort the matrix by the specified feature column
     sorted_matrix = sortrows(F, [FEATURE])
 
-    # Find positions where the ground truth is positive
     pos = np.where(sorted_matrix[:, -1] == 1)[0]
 
-    # If there are no positive examples or all examples are positive
     if len(pos) == 0 or pos[-1] == F.shape[0] - 1:
-        seuil = sorted_matrix[0, FEATURE] - 1  # Set threshold below the smallest value
+        seuil = sorted_matrix[0, FEATURE] - 1
         return seuil, sorted_matrix, sorted_matrix
 
-    # Calculate the optimal threshold
     seuil = (sorted_matrix[pos[-1], FEATURE] + sorted_matrix[pos[-1] + 1, FEATURE]) / 2
 
-    # Create subarrays for FG and FD
     FG = sorted_matrix[sorted_matrix[:, FEATURE] < seuil]
     FD = sorted_matrix[sorted_matrix[:, FEATURE] >= seuil]
 
     return seuil, FG, FD
 
 
-FG, FD, seuil = choixseuil(haar_filters, 1)
-print(seuil)
-# print(FG.shape)
-# print(FD.shape)
+# Example dataset
+F = np.array(
+    [
+        [0.1, 1],  # Negative example
+        [0.4, 1],  # Positive example
+        [0.5, 1],  # Positive example
+        [0.6, 0],  # Negative example
+        [0.8, 1],  # Positive example
+        [0.9, 0],  # Negative example
+    ]
+)
+
+FEATURE = 0
+
+seuil, FG, FD = choixseuil(F, FEATURE)
+
+print("Seuil Optimale:", seuil)
+print("FG (Below Threshold):")
+print(FG)
+print("FD (At or Above Threshold):")
+print(FD)
+
+
+NBARBRES = 10
+NBFEUILLE = 10
+NBLEVELS = 4
+FORET = np.zeros((NBARBRES, NBFEUILLE, NBLEVELS, 2))
+
+
+FEATURE = 0
+
+
+# @lru_cache(maxsize=None)
+def construire_arbre(F_tuple, feature, level):
+    print(level)
+    if level == NBLEVELS:
+        return None
+    F = np.array(F_tuple)  # Convert back to numpy array for processing
+    if len(F) == 0:
+        level += 1
+        return None
+    seuil, FG, FD = choixseuil(F, feature)
+    noeud = {"seuil": seuil, "feature": feature, "FG": FG, "FD": FD}
+
+    if len(FG) == 0:
+        level += 1
+        noeud["FG"] = None
+    else:
+        level += 1
+        noeud["FG"] = construire_arbre(
+            tuple(FG), feature, level
+        )  # Convert to tuple for caching
+    if len(FD) == 0:
+        level += 1
+        noeud["FD"] = None
+    else:
+        level += 1
+        noeud["FD"] = construire_arbre(
+            tuple(FD), feature, level
+        )  # Convert to tuple for caching
+    level += 1
+    return noeud
+
+
+FORET = []
+level = 0
+for i in range(NBARBRES):
+    for j in range(NBFEUILLE):
+        FORET.append(construire_arbre(tuple(F), FEATURE, level))
