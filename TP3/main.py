@@ -86,7 +86,7 @@ def imagesc(img1):
 # plt.show()
 
 
-img = cv.imread("TP3/TP3I02.png")
+img = cv.imread("TP3I02.png")
 img = cv.cvtColor(img, cv.COLOR_BGR2GRAY).astype(float)
 print(img.shape)
 img_radon = np.zeros((468, 500))

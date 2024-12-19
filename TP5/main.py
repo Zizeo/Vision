@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import cv2 as cv
 import os
 from functools import lru_cache
+import json
 
 
 def imagesc(img1):
@@ -13,7 +14,7 @@ def imagesc(img1):
     plt.show()
 
 
-filelist = os.listdir("TP5/training")
+filelist = os.listdir("training")
 
 
 def get_haar_filter():
@@ -21,7 +22,7 @@ def get_haar_filter():
     LIGNE = 0
     INDICE = 0
     for fichier in filelist:
-        img = cv.imread("TP5/training/" + fichier).astype(float)
+        img = cv.imread("training/" + fichier).astype(float)
         # print(img)
         # Motif 1 (horizontal)
         for H in range(1, 11):
@@ -78,7 +79,7 @@ def choixseuil(F, FEATURE):
     if F.shape[0] < 2:
         return 0, F, F
 
-    sorted_matrix = sortrows(F, [FEATURE])
+    sorted_matrix = sortrows(F, FEATURE)
 
     pos = np.where(sorted_matrix[:, -1] == 1)[0]
 
@@ -106,7 +107,7 @@ F = np.array(
     ]
 )
 
-FEATURE = 0
+FEATURE = 26
 
 seuil, FG, FD = choixseuil(F, FEATURE)
 
@@ -117,49 +118,52 @@ print("FD (At or Above Threshold):")
 print(FD)
 
 
-NBARBRES = 10
-NBFEUILLE = 10
-NBLEVELS = 4
-FORET = np.zeros((NBARBRES, NBFEUILLE, NBLEVELS, 2))
+# NBARBRES = 10
+# NBFEUILLE = 10
+# NBLEVELS = 4
+# FORET = np.zeros((NBARBRES, NBFEUILLE, NBLEVELS, 2))
 
 
-FEATURE = 0
+# FEATURE = 1
 
 
-# @lru_cache(maxsize=None)
-def construire_arbre(F_tuple, feature, level):
-    print(level)
-    if level == NBLEVELS:
-        return None
-    F = np.array(F_tuple)  # Convert back to numpy array for processing
-    if len(F) == 0:
-        level += 1
-        return None
-    seuil, FG, FD = choixseuil(F, feature)
-    noeud = {"seuil": seuil, "feature": feature, "FG": FG, "FD": FD}
+# # @lru_cache(maxsize=None)
+# def construire_arbre(F_tuple, feature, level):
+#     print(level)
+#     if level >= NBLEVELS:
+#         return None
+#     F = np.array(F_tuple)  # Convert back to numpy array for processing
+#     if len(F) == 0:
+#         level += 1
+#         return None
+#     seuil, FG, FD = choixseuil(F, feature)
+#     noeud = {"seuil": seuil, "feature": feature, "FG": FG, "FD": FD}
 
-    if len(FG) == 0:
-        level += 1
-        noeud["FG"] = None
-    else:
-        level += 1
-        noeud["FG"] = construire_arbre(
-            tuple(FG), feature, level
-        )  # Convert to tuple for caching
-    if len(FD) == 0:
-        level += 1
-        noeud["FD"] = None
-    else:
-        level += 1
-        noeud["FD"] = construire_arbre(
-            tuple(FD), feature, level
-        )  # Convert to tuple for caching
-    level += 1
-    return noeud
+#     if len(FG) == 0:
+#         level += 1
+#         noeud["FG"] = None
+#     else:
+#         level += 1
+#         noeud["FG"] = construire_arbre(
+#             tuple(FG), feature, level
+#         )  # Convert to tuple for caching
+#     if len(FD) == 0:
+#         level += 1
+#         noeud["FD"] = None
+#     else:
+#         level += 1
+#         noeud["FD"] = construire_arbre(
+#             tuple(FD), feature, level
+#         )  # Convert to tuple for caching
+#     level += 1
+#     return noeud
 
 
-FORET = []
-level = 0
-for i in range(NBARBRES):
-    for j in range(NBFEUILLE):
-        FORET.append(construire_arbre(tuple(F), FEATURE, level))
+# FORET = []
+# for i in range(NBARBRES):
+#     for j in range(NBFEUILLE):
+#         level = 0
+#         FORET.append(construire_arbre(tuple(F), FEATURE, level))
+
+# print(json.dumps(FORET, indent=4, separators=(',', ': ')))
+# print(len(FORET))

@@ -11,9 +11,9 @@ def imagesc(img1):
     plt.show()
 
 
-cercle_img = cv.imread("TP4/cercle.png")
-carre_img = cv.imread("TP4/carre.png")
-triangle_img = cv.imread("TP4/triangle.png")
+cercle_img = cv.imread("cercle.png")
+carre_img = cv.imread("carre.png")
+triangle_img = cv.imread("triangle.png")
 cercle_img = cv.cvtColor(cercle_img, cv.COLOR_BGR2GRAY).astype(float)
 carre_img = cv.cvtColor(carre_img, cv.COLOR_BGR2GRAY).astype(float)
 triangle_img = cv.cvtColor(triangle_img, cv.COLOR_BGR2GRAY).astype(float)
@@ -89,13 +89,13 @@ for i in range(distance_carre.shape[0]):
         if distance_cercle[i, j] == np.inf:
             distance_cercle[i, j] = 0
 
-# imagesc(distance_carre)
-# imagesc(distance_triangle)
-# imagesc(distance_cercle)
+imagesc(distance_carre)
+imagesc(distance_triangle)
+imagesc(distance_cercle)
 
-cercle2 = cv.imread("TP4/cercle2.png")
-carre2 = cv.imread("TP4/carre2.png")
-triangle2 = cv.imread("TP4/triangle2.png")
+cercle2 = cv.imread("cercle2.png")
+carre2 = cv.imread("carre2.png")
+triangle2 = cv.imread("triangle2.png")
 cercle2 = cv.cvtColor(cercle2, cv.COLOR_BGR2GRAY).astype(float)
 carre2 = cv.cvtColor(carre2, cv.COLOR_BGR2GRAY).astype(float)
 triangle2 = cv.cvtColor(triangle2, cv.COLOR_BGR2GRAY).astype(float)
