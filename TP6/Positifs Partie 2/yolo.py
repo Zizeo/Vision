@@ -35,7 +35,7 @@ def inference(img):
     # cv.displayOverlay('blob', text)
     # cv.waitKey(1)
 
-    net.setInput(blob)
+    # net.setInput(blob)
     t0 = time.time()
     outputs = net.forward(ln)
     t = time.time()
@@ -45,24 +45,24 @@ def inference(img):
     for out in outputs:
         print(out.shape)
 
-    def trackbar2(x):
-        confidence = x / 100
-        r = r0.copy()
-        for output in np.vstack(outputs):
-            if output[4] > confidence:
-                x, y, w, h = output[:4]
-                p0 = int((x - w / 2) * 416), int((y - h / 2) * 416)
-                p1 = int((x + w / 2) * 416), int((y + h / 2) * 416)
-                cv.rectangle(r, p0, p1, 1, 1)
-        # cv.imshow("blob", r)
-        text = f"Bbox confidence={confidence}"
-        # cv.displayOverlay('blob', text)
+    # def trackbar2(x):
+    #     confidence = x / 100
+    #     # r = r0.copy()
+    #     for output in np.vstack(outputs):
+    #         if output[4] > confidence:
+    #             x, y, w, h = output[:4]
+    #             p0 = int((x - w / 2) * 416), int((y - h / 2) * 416)
+    #             p1 = int((x + w / 2) * 416), int((y + h / 2) * 416)
+    #             cv.rectangle(r, p0, p1, 1, 1)
+    #     # cv.imshow("blob", r)
+    #     text = f"Bbox confidence={confidence}"
+    #     # cv.displayOverlay('blob', text)
 
     # r0 = blob[0, 0, :, :]
     # r = r0.copy()
     # cv.imshow("blob", r)
-    cv.createTrackbar("confidence", "blob", 50, 101, trackbar2)
-    trackbar2(50)
+    # cv.createTrackbar("confidence", "blob", 50, 101, trackbar2)
+    # trackbar2(50)
 
     boxes = []
     confidences = []
