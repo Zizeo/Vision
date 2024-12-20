@@ -1,0 +1,57 @@
+{
+    "body + faces": {
+        "positif": 261,
+        "negatif": 121,
+        "accuracy": 68.32460732984293,
+        "recall": 52.2
+    },
+    "faces only": {
+        "positif": 195,
+        "negatif": 64,
+        "accuracy": 75.2895752895753,
+        "recall": 39.0
+    },
+    "faces whithout stage 19": {
+        "positif":230,
+        "negatif": 104,
+        "accuracy": 68.8622754491018,
+        "recall": 46.0
+    },
+    "faces whithout stage 18": {
+        "positif": 285,
+        "negatif": 180,
+        "accuracy": 61.29032258064516,
+        "recall": 56.99999999999999
+    },
+    "faces whithout stage 17": {
+        "positif": 358,
+        "negatif": 301,
+        "accuracy": 54.3247344461305,
+        "recall": 71.6
+    },
+    "faces whithout stage 16": {
+        "positif": 420,
+        "negatif": 396,
+        "accuracy": 51.470588235294116,
+        "recall": 84.0
+    },
+    "faces whithout stage 15": {
+        "positif": 471,
+        "negatif": 469,
+        "accuracy": 50.10638297872341,
+        "recall": 94.19999999999999
+    },
+    "faces whithout stage 14": {
+        "positif": 490,
+        "negatif": 489,
+        "accuracy": 50.05107252298263,
+        "recall": 98.0
+    },
+    "faces whithout stage 13": {
+        "positif": 497,
+        "negatif": 495,
+        "accuracy": 50.1008064516129,
+        "recall": 99.4
+    }
+}
+
