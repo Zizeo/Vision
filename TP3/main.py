@@ -86,13 +86,14 @@ def imagesc(img1):
 # plt.show()
 
 
-img = cv.imread("TP3I02.png")
+img = cv.imread("./TP3/TP3I02.png")
 img = cv.cvtColor(img, cv.COLOR_BGR2GRAY).astype(float)
 print(img.shape)
 img_radon = np.zeros((468, 500))
 
 cosines = [np.cos(t / 100) for t in range(628)]
 sines = [np.sin(t / 100) for t in range(628)]
+
 for x in range(468):
     for y in range(500):
         img_radon[x, y] = sum(
