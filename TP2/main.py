@@ -3,8 +3,8 @@ import cv2 as cv
 import matplotlib.pyplot as plt
 import numpy as np
 
-# # i1 = cv.imread("TP2\\3ASRITP02I01.jpg")
-# # i2 = cv.imread("TP2\\3ASRITP02I02.jpg")
+# i1 = cv.imread("TP2\\3ASRITP02I01.jpg")
+# i2 = cv.imread("TP2\\3ASRITP02I02.jpg")
 # i1 = cv.imread("TP2\\TE2_2.jpeg")
 # i2 = cv.imread("TP2\\TE3_2.jpg")
 
@@ -30,69 +30,69 @@ import numpy as np
 # %%
 # 2. Points de Moravec
 
-# img = cv.imread("TP2\\TP02I01.png")
-# img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-# print(img.shape)
+img = cv.imread("TP2\\TP02I01.png")
+img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+print(img.shape)
 
-# def moravec(img):
-#     h, w = img.shape
-#     SM = np.zeros((h, w))
-#     window_size = 11
-#     half_window = window_size // 2
-#     translations = [-5, -3, -1, 1, 3, 5]
-#     for i in range(half_window, h - half_window):
-#         for j in range(half_window, w - half_window):
-#             window = img[
-#                 i - half_window : i + half_window + 1,
-#                 j - half_window : j + half_window + 1,
-#             ]
+def moravec(img):
+    h, w = img.shape
+    SM = np.zeros((h, w))
+    window_size = 11
+    half_window = window_size // 2
+    translations = [-5, -3, -1, 1, 3, 5]
+    for i in range(half_window, h - half_window):
+        for j in range(half_window, w - half_window):
+            window = img[
+                i - half_window : i + half_window + 1,
+                j - half_window : j + half_window + 1,
+            ]
 
-#             min_diff = float("inf")
-#             for a in translations:
-#                 for b in translations:
-#                     if a == 0 and b == 0:
-#                         continue
+            min_diff = float("inf")
+            for a in translations:
+                for b in translations:
+                    if a == 0 and b == 0:
+                        continue
 
-#                     i_shifted = i + a
-#                     j_shifted = j + b
+                    i_shifted = i + a
+                    j_shifted = j + b
 
-#                     if (
-#                         i_shifted - half_window >= 0
-#                         and i_shifted + half_window + 1 <= h
-#                         and j_shifted - half_window >= 0
-#                         and j_shifted + half_window + 1 <= w
-#                     ):
-#                         window_shifted = img[
-#                             i_shifted - half_window : i_shifted + half_window + 1,
-#                             j_shifted - half_window : j_shifted + half_window + 1,
-#                         ]
+                    if (
+                        i_shifted - half_window >= 0
+                        and i_shifted + half_window + 1 <= h
+                        and j_shifted - half_window >= 0
+                        and j_shifted + half_window + 1 <= w
+                    ):
+                        window_shifted = img[
+                            i_shifted - half_window : i_shifted + half_window + 1,
+                            j_shifted - half_window : j_shifted + half_window + 1,
+                        ]
 
-#                         diff = np.sum((np.abs(window - window_shifted)))
+                        diff = np.sum((np.abs(window - window_shifted)))
 
-#                         min_diff = min(min_diff, diff)
+                        min_diff = min(min_diff, diff)
 
-#             SM[i, j] = min_diff
+            SM[i, j] = min_diff
 
-#     return SM
+    return SM
 
-# SM = moravec(img)
-# plt.imshow(SM, cmap='gray')
-# plt.colorbar()
-# plt.show()
+SM = moravec(img)
+plt.imshow(SM, cmap='gray')
+plt.colorbar()
+plt.show()
 
 
-# n_points = 0
-# for i in range(SM.shape[0]):
-#     for j in range(SM.shape[1]):
-#         if (
-#             SM[i, j] > SM[i - 1, j]
-#             and SM[i, j] > SM[i + 1, j]
-#             and SM[i, j] > SM[i, j - 1]
-#             and SM[i, j] > SM[i, j + 1]
-#         ):
-#             n_points += 1
+n_points = 0
+for i in range(SM.shape[0]):
+    for j in range(SM.shape[1]):
+        if (
+            SM[i, j] > SM[i - 1, j]
+            and SM[i, j] > SM[i + 1, j]
+            and SM[i, j] > SM[i, j - 1]
+            and SM[i, j] > SM[i, j + 1]
+        ):
+            n_points += 1
 
-# print("Nombre de points d'intérêt: ", n_points)
+print("Nombre de points d'intérêt: ", n_points)
 
 
 
@@ -100,29 +100,29 @@ import numpy as np
 # LBP
 
 
-img = cv.imread("TP2\\TP02I01.png")
-img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+# img = cv.imread("TP2\\TP02I01.png")
+# img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
 
-def lbp(img):
-    h, w = img.shape
-    lbp = np.zeros((h, w))
-    for i in range(1, h - 1):
-        for j in range(1, w - 1):
-            center = img[i, j]
-            lbp[i, j] = (
-                (img[i - 1, j - 1] > center) << 7
-                | (img[i - 1, j] > center) << 6
-                | (img[i - 1, j + 1] > center) << 5
-                | (img[i, j + 1] > center) << 4
-                | (img[i + 1, j + 1] > center) << 3
-                | (img[i + 1, j] > center) << 2
-                | (img[i + 1, j - 1] > center) << 1
-                | (img[i, j - 1] > center)
-            )
-    return lbp
+# def lbp(img):
+#     h, w = img.shape
+#     lbp = np.zeros((h, w))
+#     for i in range(1, h - 1):
+#         for j in range(1, w - 1):
+#             center = img[i, j]
+#             lbp[i, j] = (
+#                 (img[i - 1, j - 1] > center) << 7
+#                 | (img[i - 1, j] > center) << 6
+#                 | (img[i - 1, j + 1] > center) << 5
+#                 | (img[i, j + 1] > center) << 4
+#                 | (img[i + 1, j + 1] > center) << 3
+#                 | (img[i + 1, j] > center) << 2
+#                 | (img[i + 1, j - 1] > center) << 1
+#                 | (img[i, j - 1] > center)
+#             )
+#     return lbp
 
-lbp = lbp(img)
-plt.imshow(lbp, cmap='gray')
-plt.colorbar()
-plt.show()
+# lbp = lbp(img)
+# plt.imshow(lbp, cmap='gray')
+# plt.colorbar()
+# plt.show()
 # %%
