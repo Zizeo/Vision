@@ -3,6 +3,7 @@ from matplotlib import image
 import numpy as np
 import matplotlib.pyplot as plt
 import cv2 as cv
+import os
 
 
 def imagesc(img1):
@@ -48,7 +49,7 @@ def imagesc(img1):
 # imagesc(H)
 
 # lst_x1, lst_y1, lst_x2, lst_y2 = [], [], [], []
-# k = 10
+# k = 20
 # epsilum = 0.01
 # indices = np.argsort(H, axis=None)[-k:]
 # for index in indices:
@@ -86,7 +87,7 @@ def imagesc(img1):
 # plt.show()
 
 
-img = cv.imread("./TP3/TP3I02.png")
+img = cv.imread(os.path.join("TP3", "TP3I02.png"))
 img = cv.cvtColor(img, cv.COLOR_BGR2GRAY).astype(float)
 print(img.shape)
 img_radon = np.zeros((468, 500))

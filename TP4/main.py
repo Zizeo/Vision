@@ -3,6 +3,7 @@ from matplotlib import image
 import numpy as np
 import matplotlib.pyplot as plt
 import cv2 as cv
+import os
 
 
 def imagesc(img1):
@@ -11,9 +12,9 @@ def imagesc(img1):
     plt.show()
 
 
-cercle_img = cv.imread("cercle.png")
-carre_img = cv.imread("carre.png")
-triangle_img = cv.imread("triangle.png")
+cercle_img = cv.imread(os.path.join("TP4", "cercle.png"))
+carre_img = cv.imread(os.path.join("TP4", "carre.png"))
+triangle_img = cv.imread(os.path.join("TP4", "triangle.png"))
 cercle_img = cv.cvtColor(cercle_img, cv.COLOR_BGR2GRAY).astype(float)
 carre_img = cv.cvtColor(carre_img, cv.COLOR_BGR2GRAY).astype(float)
 triangle_img = cv.cvtColor(triangle_img, cv.COLOR_BGR2GRAY).astype(float)
@@ -25,6 +26,10 @@ triangle_bin = np.where(triangle_img > 68, 0, 1)
 
 chanfrein_up = np.array([[4, 3, 4], [3, 0, np.inf], [np.inf, np.inf, np.inf]])
 chanfrein_low = np.array([[np.inf, np.inf, np.inf], [np.inf, 0, 3], [4, 3, 4]])
+
+chanfrein = np.minimum(chanfrein_up, chanfrein_low)
+print(chanfrein)
+
 
 cercle_pad = np.pad(cercle_bin, 1, mode="constant", constant_values=0)
 carre_pad = np.pad(carre_bin, 1, mode="constant", constant_values=0)
@@ -39,10 +44,10 @@ def distance_transform(img):
         for j in range(1, img.shape[1] - 1):
             if img[i, j] == 0:
                 distance_img[i, j] = np.inf
-                print("inf")
+                # print("inf")
             if img[i, j] == 1:
                 distance_img[i, j] = 0
-                print(i, j)
+                # print(i, j)
 
     # imagesc(distance_img)
     # Upper pass
@@ -93,9 +98,9 @@ imagesc(distance_carre)
 imagesc(distance_triangle)
 imagesc(distance_cercle)
 
-cercle2 = cv.imread("cercle2.png")
-carre2 = cv.imread("carre2.png")
-triangle2 = cv.imread("triangle2.png")
+cercle2 = cv.imread(os.path.join("TP4", "cercle2.png"))
+carre2 = cv.imread(os.path.join("TP4", "carre2.png"))
+triangle2 = cv.imread(os.path.join("TP4", "triangle2.png"))
 cercle2 = cv.cvtColor(cercle2, cv.COLOR_BGR2GRAY).astype(float)
 carre2 = cv.cvtColor(carre2, cv.COLOR_BGR2GRAY).astype(float)
 triangle2 = cv.cvtColor(triangle2, cv.COLOR_BGR2GRAY).astype(float)
