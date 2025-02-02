@@ -33,20 +33,20 @@ parser = argparse.ArgumentParser(description="Code for Cascade Classifier tutori
 parser.add_argument(
     "--face_cascade",
     help="Path to face cascade.",
-    default="TP6/face.xml",
+    default="face.xml",
 )
 parser.add_argument(
     "--eyes_cascade",
     help="Path to eyes cascade.",
-    default="TP6/eyes.xml",
+    default="eyes.xml",
 )
 parser.add_argument(
     "--body_cascade",
     help="Path to body cascade.",
-    default="TP6/body.xml",
+    default="body.xml",
 )
 
-parser.add_argument("--camera", help="Camera divide number.", type=int, default=1)
+parser.add_argument("--camera", help="Camera divide number.", type=int, default=0)
 args = parser.parse_args()
 face_cascade_name = args.face_cascade
 eyes_cascade_name = args.eyes_cascade
@@ -68,15 +68,19 @@ if not body_cascade.load(cv.samples.findFile(body_cascade_name)):
     exit(0)
 camera_device = args.camera
 # -- 2. Read the video stream
-cap = cv.VideoCapture(camera_device)
-if not cap.isOpened:
-    print("--(!)Error opening video capture")
-    exit(0)
-while True:
-    ret, frame = cap.read()
-    if frame is None:
-        print("--(!) No captured frame -- Break!")
-        break
-    detectAndDisplay(frame)
-    if cv.waitKey(10) == 27:
-        break
+# cap = cv.VideoCapture(camera_device)
+# if not cap.isOpened:
+#     print("--(!)Error opening video capture")
+#     exit(0)
+# while True:
+#     ret, frame = cap.read()
+#     if frame is None:
+#         print("--(!) No captured frame -- Break!")
+#         break
+#     detectAndDisplay(frame)
+#     if cv.waitKey(10) == 27:
+#         break
+
+img = cv.imread("Tests_partie1.jpg")
+detectAndDisplay(img)
+cv.waitKey(0)

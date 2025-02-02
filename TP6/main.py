@@ -11,11 +11,11 @@ VIDEO = False
 CALCULE = False
 
 
-def signal_handler(sig, frame):
-    sys.exit(0)
+# def signal_handler(sig, frame):
+#     sys.exit(0)
 
 
-signal.signal(signal.SIGINT, signal_handler)
+# signal.signal(signal.SIGINT, signal_handler)
 
 
 def detectAndDisplay(frame):
@@ -52,129 +52,133 @@ def detectAndDisplay(frame):
     # cv.imshow("Capture - Face detection", frame)
 
 
-parser = argparse.ArgumentParser(description="Code for Cascade Classifier tutorial.")
-parser.add_argument(
-    "--face_cascade",
-    help="Path to face cascade.",
-    default="TP6/face.xml",
-)
-parser.add_argument(
-    "--eyes_cascade",
-    help="Path to eyes cascade.",
-    default="TP6/eyes.xml",
-)
-parser.add_argument(
-    "--body_cascade",
-    help="Path to body cascade.",
-    default="TP6/body.xml",
-)
+# parser = argparse.ArgumentParser(description="Code for Cascade Classifier tutorial.")
+# parser.add_argument(
+#     "--face_cascade",
+#     help="Path to face cascade.",
+#     default="face.xml",
+# )
+# parser.add_argument(
+#     "--eyes_cascade",
+#     help="Path to eyes cascade.",
+#     default="eyes.xml",
+# )
+# parser.add_argument(
+#     "--body_cascade",
+#     help="Path to body cascade.",
+#     default="body.xml",
+# )
 
-parser.add_argument("--camera", help="Camera divide number.", type=int, default=0)
-args = parser.parse_args()
-face_cascade_name = args.face_cascade
-eyes_cascade_name = args.eyes_cascade
-body_cascade_name = args.body_cascade
-face_cascade = cv.CascadeClassifier()
-body_cascade = cv.CascadeClassifier()
-eyes_cascade = cv.CascadeClassifier()
+# parser.add_argument("--camera", help="Camera divide number.", type=int, default=0)
+# args = parser.parse_args()
+# face_cascade_name = args.face_cascade
+# eyes_cascade_name = args.eyes_cascade
+# body_cascade_name = args.body_cascade
+# face_cascade = cv.CascadeClassifier()
+# body_cascade = cv.CascadeClassifier()
+# eyes_cascade = cv.CascadeClassifier()
 
-# -- 1. Load the cascades
-if not face_cascade.load(cv.samples.findFile(face_cascade_name)):
-    print("--(!)Error loading face cascade")
-    exit(0)
-if not eyes_cascade.load(cv.samples.findFile(eyes_cascade_name)):
-    print("--(!)Error loading eyes cascade")
-    exit(0)
-if not body_cascade.load(cv.samples.findFile(body_cascade_name)):
-    print("--(!)Error loading body cascade")
-    exit(0)
-camera_device = args.camera
-# -- 2. Read the video stream
+# # -- 1. Load the cascades
+# if not face_cascade.load(cv.samples.findFile(face_cascade_name)):
+#     print("--(!)Error loading face cascade")
+#     exit(0)
+# if not eyes_cascade.load(cv.samples.findFile(eyes_cascade_name)):
+#     print("--(!)Error loading eyes cascade")
+#     exit(0)
+# if not body_cascade.load(cv.samples.findFile(body_cascade_name)):
+#     print("--(!)Error loading body cascade")
+#     exit(0)
+# camera_device = args.camera
+# # -- 2. Read the video stream
 
-if VIDEO:
-    cap = cv.VideoCapture(camera_device)
-    if not cap.isOpened:
-        print("--(!)Error opening video capture")
-        exit(0)
-    while True:
-        ret, frame = cap.read()
-        if frame is None:
-            print("--(!) No captured frame -- Break!")
-            break
-        detectAndDisplay(frame)
-        if cv.waitKey(10) == 27:
-            break
-else:
-    while True:
-        img = cv.imread("TP6/Tests_partie1.jpg")
-        detectAndDisplay(img)
-        if cv.waitKey(0) == 27:
-            cv.destroyAllWindows()
-            break
+# if VIDEO:
+#     cap = cv.VideoCapture(camera_device)
+#     if not cap.isOpened:
+#         print("--(!)Error opening video capture")
+#         exit(0)
+#     while True:
+#         ret, frame = cap.read()
+#         if frame is None:
+#             print("--(!) No captured frame -- Break!")
+#             break
+#         detectAndDisplay(frame)
+#         if cv.waitKey(10) == 27:
+#             break
+# else:
+#     while True:
+#         img = cv.imread("Tests_partie1.jpg")
+#         detectAndDisplay(img)
+#         if cv.waitKey(0) == 27:
+#             cv.destroyAllWindows()
+#             break
 
-# positif_dir1 = os.listdir("TP6/Positifs Partie 1")
-# positif_dir2 = os.listdir("TP6/Positifs Partie 2")
-# negatif_dir1 = os.listdir("TP6/Negatifs Partie 1")
-# negatif_dir2 = os.listdir("TP6/Negatifs Partie 2")
+positif_dir1 = os.listdir("TP6/Positifs Partie 1")
+positif_dir2 = os.listdir("TP6/Positifs Partie 2")
+negatif_dir1 = os.listdir("TP6/Negatifs Partie 1")
+negatif_dir2 = os.listdir("TP6/Negatifs Partie 2")
 
-# if CALCULE:
-#     positif = []
-#     negatif = []
-#     print("calcul en cours")
-#     for i in range(len(positif_dir1)):
-#         positif.append(cv.imread("TP6/Positifs Partie 1/" + positif_dir1[i]))
-#         print(i)
-#     for i in range(len(positif_dir2)):
-#         positif.append(cv.imread("TP6/Positifs Partie 2/" + positif_dir2[i]))
-#         print(i)
-#     for i in range(len(negatif_dir1)):
-#         negatif.append(cv.imread("TP6/Negatifs Partie 1/" + negatif_dir1[i]))
-#         print(i)
-#     for i in range(len(negatif_dir2)):
-#         negatif.append(cv.imread("TP6/Negatifs Partie 2/" + negatif_dir2[i]))
-#         print(i)
+if CALCULE:
+    positif = []
+    negatif = []
+    print("calcul en cours")
+    for i in range(len(positif_dir1)):
+        positif.append(cv.imread("TP6/Positifs Partie 1/" + positif_dir1[i]))
+        print(i)
+    for i in range(len(positif_dir2)):
+        positif.append(cv.imread("TP6/Positifs Partie 2/" + positif_dir2[i]))
+        print(i)
+    for i in range(len(negatif_dir1)):
+        negatif.append(cv.imread("TP6/Negatifs Partie 1/" + negatif_dir1[i]))
+        print(i)
+    for i in range(len(negatif_dir2)):
+        negatif.append(cv.imread("TP6/Negatifs Partie 2/" + negatif_dir2[i]))
+        print(i)
 
-#     positif_score = 0
-#     negatif_score = 0
-#     for i in range(len(positif)):
-#         print(i)
-#         positif_score += detectAndDisplay(positif[i])
-#     for i in range(len(negatif)):
-#         print(i)
-#         negatif_score += detectAndDisplay(negatif[i])
-
-
-# # positif_score = 261
-# # negatif_score = 121
-# # print(positif_score)
-# # print(negatif_score)
-# # positif_negatif = len(positif_dir1) + len(positif_dir2) - positif_score
-# # negatif_negatif = len(negatif_dir1) + len(negatif_dir2) - negatif_score
+    positif_score = 0
+    negatif_score = 0
+    # for i in range(len(positif)):
+    #     print(i)
+    #     positif_score += detectAndDisplay(positif[i])
+    # for i in range(len(negatif)):
+    #     print(i)
+    #     negatif_score += detectAndDisplay(negatif[i])
+    
+    
+    
+    
 
 
-# # print("accuracy:", (positif_score / (positif_score + negatif_score)) * 100)
-# # print("recall:", (positif_score / (len(positif_dir1) + len(positif_dir2))) * 100)
-
-# accuracies = []
-# stage = []
-# with open("TP6/result.json") as f:
-#     json_data = json.load(f)
-#     i = 0
-#     items = [item for item in json_data]
-#     for item in items[1:]:
-#         accuracies.append(json_data[item]["accuracy"])
-#         print(item)
-#         stage.append(20 - i)
-#         i += 1
+# positif_score = 261
+# negatif_score = 121
+# print(positif_score)
+# print(negatif_score)
+# positif_negatif = len(positif_dir1) + len(positif_dir2) - positif_score
+# negatif_negatif = len(negatif_dir1) + len(negatif_dir2) - negatif_score
 
 
-# # les niveaux de cascade permettent de mieux de filtrer la detection
-# # augmantant le nombre de vrai positif, augmantant la precision
+# print("accuracy:", (positif_score / (positif_score + negatif_score)) * 100)
+# print("recall:", (positif_score / (len(positif_dir1) + len(positif_dir2))) * 100)
 
-# # pour avoir une bonne estimation de la qualité du modèle il faut coupler la precision
-# # au recall -> F1 score
+accuracies = []
+stage = []
+with open("TP6/result.json") as f:
+    json_data = json.load(f)
+    i = 0
+    items = [item for item in json_data]
+    for item in items[1:]:
+        accuracies.append(json_data[item]["accuracy"])
+        print(item)
+        stage.append(20 - i)
+        i += 1
 
-# plt.plot(stage, accuracies)
-# plt.xlabel("stage")
-# plt.ylabel("accuracy")
-# plt.show()
+
+# les niveaux de cascade permettent de mieux de filtrer la detection
+# augmantant le nombre de vrai positif, augmantant la precision
+
+# pour avoir une bonne estimation de la qualité du modèle il faut coupler la precision
+# au recall -> F1 score
+
+plt.plot(stage, accuracies)
+plt.xlabel("stage")
+plt.ylabel("accuracy")
+plt.show()
