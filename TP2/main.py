@@ -125,22 +125,22 @@ def lbp(img):
     return lbp
 
 
-lbp = lbp(img)
+lbp1 = lbp(img)
 
 n_points = 0
-for i in range(lbp.shape[0]):
-    for j in range(lbp.shape[1]):
+for i in range(lbp1.shape[0]):
+    for j in range(lbp1.shape[1]):
         if (
-            lbp[i, j] > lbp[i - 1, j]
-            and lbp[i, j] > lbp[i + 1, j]
-            and lbp[i, j] > lbp[i, j - 1]
-            and lbp[i, j] > lbp[i, j + 1]
+            lbp1[i, j] > lbp1[i - 1, j]
+            and lbp1[i, j] > lbp1[i + 1, j]
+            and lbp1[i, j] > lbp1[i, j - 1]
+            and lbp1[i, j] > lbp1[i, j + 1]
         ):
             n_points += 1
 
 print("Nombre de points d'intérêt: ", n_points)
 
 
-plt.imshow(lbp, cmap="gray")
+plt.imshow(lbp1, cmap="gray")
 plt.colorbar()
 plt.show()

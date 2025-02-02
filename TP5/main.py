@@ -14,7 +14,7 @@ def imagesc(img1):
     plt.show()
 
 
-filelist = os.listdir("training")
+filelist = os.listdir(os.path.join("TP5", "training"))
 
 
 def get_haar_filter():
@@ -22,7 +22,7 @@ def get_haar_filter():
     LIGNE = 0
     INDICE = 0
     for fichier in filelist:
-        img = cv.imread("training/" + fichier).astype(float)
+        img = cv.imread(os.path.join("TP5", "training", fichier)).astype(float)
         # print(img)
         # Motif 1 (horizontal)
         for H in range(1, 11):
@@ -63,7 +63,8 @@ haar_filters = get_haar_filter()
 np.set_printoptions(threshold=10000)
 haar_filters[:500, -1] = 1
 haar_filters[500:, -1] = 0
-# print(haar_filters)
+print(haar_filters)
+print(haar_filters.shape)
 
 
 def sortrows(matrix, columns):
@@ -74,7 +75,7 @@ def sortrows(matrix, columns):
     return sorted_matrix
 
 
-@lru_cache(maxsize=None)
+
 def choixseuil(F, FEATURE):
     # If F contains less than 2 rows, return 0 for threshold and the complete array for FG and FD
     if F.shape[0] < 2:
@@ -108,7 +109,7 @@ F = np.array(
     ]
 )
 
-FEATURE = 26
+FEATURE = [1]
 
 seuil, FG, FD = choixseuil(F, FEATURE)
 
